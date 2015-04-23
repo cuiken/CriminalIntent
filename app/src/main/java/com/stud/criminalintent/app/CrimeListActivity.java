@@ -2,12 +2,12 @@ package com.stud.criminalintent.app;
 
 import android.support.v4.app.Fragment;
 
-
-public class CrimeActivity extends SingleFragmentActivity {
-
+/**
+ * @autor Ken.Cui
+ */
+public class CrimeListActivity extends SingleFragmentActivity {
     @Override
     protected Fragment createFragment() {
-        return new CrimeFragment();
+        return new CrimeListFragment();
     }
-
 }
