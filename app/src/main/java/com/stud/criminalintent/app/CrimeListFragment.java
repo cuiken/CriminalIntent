@@ -7,10 +7,7 @@ import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.text.format.DateFormat;
 import android.view.*;
-import android.widget.ArrayAdapter;
-import android.widget.CheckBox;
-import android.widget.ListView;
-import android.widget.TextView;
+import android.widget.*;
 
 import java.util.ArrayList;
 
@@ -23,6 +20,7 @@ public class CrimeListFragment extends ListFragment {
     private static final int REQUEST_CRIME = 1;
     private ArrayList<Crime> mCrimes;
     private boolean mSubtitleVisible;
+    private Button mNewCrimeButton;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -94,12 +92,26 @@ public class CrimeListFragment extends ListFragment {
     @TargetApi(11)
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
-        View v = super.onCreateView(inflater, parent, savedInstanceState);
+        View v = inflater.inflate(R.layout.fragment_crime_list, parent, false);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
             if (mSubtitleVisible) {
                 getActivity().getActionBar().setSubtitle(R.string.subtitle);
             }
         }
+        ListView listView = (ListView) v.findViewById(android.R.id.list);
+        listView.setEmptyView(v.findViewById(android.R.id.empty));
+        mNewCrimeButton = (Button) v.findViewById(R.id.new_crime_button);
+        mNewCrimeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Crime crime = new Crime();
+                CrimeLab.get(getActivity()).addCrime(crime);
+                Intent i = new Intent(getActivity(), CrimePagerActivity.class);
+                i.putExtra(CrimeFragment.EXTRA_CRIME_ID, crime.getId());
+                startActivityForResult(i, 0);
+            }
+        });
+
         return v;
     }
 
