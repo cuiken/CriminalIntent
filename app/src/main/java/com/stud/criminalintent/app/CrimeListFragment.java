@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.text.format.DateFormat;
 import android.view.*;
 import android.widget.*;
@@ -93,12 +95,13 @@ public class CrimeListFragment extends ListFragment {
                 startActivityForResult(i, 0);
                 return true;
             case R.id.menu_item_show_subtitle:
-                if (getActivity().getActionBar().getSubtitle() == null) {
-                    getActivity().getActionBar().setSubtitle(R.string.subtitle);
+                ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
+                if (actionBar.getSubtitle() == null) {
+                    actionBar.setSubtitle(R.string.subtitle);
                     mSubtitleVisible = true;
                     item.setTitle(R.string.hide_subtitle);
                 } else {
-                    getActivity().getActionBar().setSubtitle(null);
+                    actionBar.setSubtitle(null);
                     mSubtitleVisible = false;
                     item.setTitle(R.string.show_subtitle);
                 }
@@ -115,7 +118,7 @@ public class CrimeListFragment extends ListFragment {
         View v = inflater.inflate(R.layout.fragment_crime_list, parent, false);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
             if (mSubtitleVisible) {
-                getActivity().getActionBar().setSubtitle(R.string.subtitle);
+                ((AppCompatActivity) getActivity()).getSupportActionBar().setSubtitle(R.string.subtitle);
             }
         }
         ListView listView = (ListView) v.findViewById(android.R.id.list);
