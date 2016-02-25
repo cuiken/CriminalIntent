@@ -12,10 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.text.format.DateFormat;
-import android.view.LayoutInflater;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
+import android.view.*;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -57,7 +54,7 @@ public class CrimeFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_crime, parent, false);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
             if (NavUtils.getParentActivityName(getActivity()) != null) {
-                ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+                ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             }
         }
         mTitleField = (EditText) v.findViewById(R.id.crime_title);
@@ -117,13 +114,21 @@ public class CrimeFragment extends Fragment {
     }
 
     @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.delete_crime, menu);
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.home:
-                if (NavUtils.getParentActivityName(getActivity()) != null) {
-                    NavUtils.navigateUpFromSameTask(getActivity());
-                }
+                goHome();
                 return true;
+            case R.id.menu_delete_crime:
+                CrimeLab.get(getActivity()).deleteCrime(mCrime);
+                goHome();
+
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -161,5 +166,11 @@ public class CrimeFragment extends Fragment {
     public void updateDate() {
         mDateButton.setText(DateFormat.format("yyyy MMM dd,EEEE", mCrime.getDate()));
         mTimeButton.setText(DateFormat.getTimeFormat(getActivity()).format(mCrime.getDate()));
+    }
+
+    public void goHome() {
+        if (NavUtils.getParentActivityName(getActivity()) != null) {
+            NavUtils.navigateUpFromSameTask(getActivity());
+        }
     }
 }
