@@ -4,7 +4,7 @@ import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
-import android.view.Display;
+import android.util.DisplayMetrics;
 import android.widget.ImageView;
 
 /**
@@ -13,9 +13,14 @@ import android.widget.ImageView;
 public class PictureUtils {
 
     public static BitmapDrawable getScaledDrawable(Activity a, String path) {
-        Display display = a.getWindowManager().getDefaultDisplay();
-        float destWidth = display.getWidth();
-        float destHeight = display.getHeight();
+//        Display display = a.getWindowManager().getDefaultDisplay();
+//        float destWidth = display.getWidth();
+//        float destHeight = display.getHeight();
+
+        DisplayMetrics dm = new DisplayMetrics();
+        a.getWindowManager().getDefaultDisplay().getMetrics(dm);
+        float destWidth = dm.widthPixels;
+        float destHeight = dm.heightPixels;
 
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inJustDecodeBounds = true;
